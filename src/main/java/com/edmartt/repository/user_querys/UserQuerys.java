@@ -11,17 +11,19 @@ import com.edmartt.repository.connector.Mariadb;
 public class UserQuerys implements IDao{
 
     private PreparedStatement preparedStm = null;
-    private Connection connection = null;
     private ResultSet result = null;
-    private Mariadb db_connector = null;
-
+	private IConnector connector;
+	
+	public UserQuerys(IConnector connector)
+	{
+		this.connector = connector;
+	}
+	
     @Override
     public void add(Users user){
-        db_connector = new Mariadb();
         String query = "INSERT INTO users (name, lastname, country, email) VALUES(?, ?, ?, ?)";
-        connection = db_connector.getConnection()  ;
-
-        try {
+        try(var connection = connector.getConnection())
+		{
             preparedStm = connection.prepareStatement(query);
             preparedStm.setString(1, user.getName());
             preparedStm.setString(2, user.getLastname());
@@ -34,18 +36,13 @@ public class UserQuerys implements IDao{
             }
         } catch (SQLException e) {
             System.out.println(e);
-        } finally{
-            db_connector.closeConnection();
         }
     }
 
     @Override
     public String get(String name){
-        db_connector = new Mariadb();
         String query="SELECT * FROM users WHERE name=?";
-        connection = db_connector.getConnection();
-        
-        try {
+        try(var connection = connector.getConnection()) {
             preparedStm = connection.prepareStatement(query);
             preparedStm.setString(1, name);
             this.result = preparedStm.executeQuery();
@@ -55,9 +52,6 @@ public class UserQuerys implements IDao{
         }
         catch (SQLException e) {   
             System.out.println(e);
-        }
-        finally{
-            db_connector.closeConnection();
         }
         return "The user doesn't exists";
     }
