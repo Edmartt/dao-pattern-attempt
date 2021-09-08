@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Mariadb{
+public class Mariadb implements IConnector {
 
     private Connection connection=null;
     private final String DRIVER = "org.mariadb.jdbc.Driver";
@@ -13,6 +13,7 @@ public class Mariadb{
     private String PASSWORD = "";
     private final String DB_URL = "";
 
+    @Override
     public Connection getConnection() {
         try {
             Class.forName(DRIVER);
@@ -26,6 +27,7 @@ public class Mariadb{
         return connection;
     }
 
+    @Override
     public void closeConnection(){
         try {
             connection.close();
