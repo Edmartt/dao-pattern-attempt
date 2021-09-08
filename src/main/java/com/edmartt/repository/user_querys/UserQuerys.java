@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Connection;
 import com.edmartt.repository.IDao;
-import com.edmartt.repository.connector.Mariadb;
+import com.edmartt.repository.connector.IConnector;
 
 public class UserQuerys implements IDao{
 	private IConnector connector;
