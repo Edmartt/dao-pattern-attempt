@@ -9,9 +9,6 @@ import com.edmartt.repository.IDao;
 import com.edmartt.repository.connector.Mariadb;
 
 public class UserQuerys implements IDao{
-
-    private PreparedStatement preparedStm = null;
-    private ResultSet result = null;
 	private IConnector connector;
 	
 	public UserQuerys(IConnector connector)
@@ -24,7 +21,7 @@ public class UserQuerys implements IDao{
         String query = "INSERT INTO users (name, lastname, country, email) VALUES(?, ?, ?, ?)";
         try(var connection = connector.getConnection())
 		{
-            preparedStm = connection.prepareStatement(query);
+            var preparedStm = connection.prepareStatement(query);
             preparedStm.setString(1, user.getName());
             preparedStm.setString(2, user.getLastname());
             preparedStm.setString(3, user.getCountry());
@@ -43,10 +40,10 @@ public class UserQuerys implements IDao{
     public String get(String name){
         String query="SELECT * FROM users WHERE name=?";
         try(var connection = connector.getConnection()) {
-            preparedStm = connection.prepareStatement(query);
+            var preparedStm = connection.prepareStatement(query);
             preparedStm.setString(1, name);
-            this.result = preparedStm.executeQuery();
-            if(this.result.next()){
+            var result = preparedStm.executeQuery();
+            if(result.next()){
                 return result.getString("name");
             }
         }
