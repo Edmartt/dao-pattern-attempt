@@ -1,10 +1,7 @@
 package com.edmartt.repository.user_querys;
 
 import com.edmartt.users.Users;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Connection;
 import com.edmartt.repository.IDao;
 import com.edmartt.repository.connector.IConnector;
 
